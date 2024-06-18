@@ -1,0 +1,24 @@
+From 249a1a91b7085940fcebe175d22b899a798e270f Mon Sep 17 00:00:00 2001
+From: "Brett T. Warden" <brett.t.warden@intel.com>
+Date: Mon, 17 Jun 2024 17:21:19 -0700
+Subject: [PATCH] Provide node.js include paths
+
+---
+ src/bindings/js/node/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/bindings/js/node/CMakeLists.txt b/src/bindings/js/node/CMakeLists.txt
+index 8035de0953dd..e3053fa46b00 100644
+--- a/src/bindings/js/node/CMakeLists.txt
++++ b/src/bindings/js/node/CMakeLists.txt
+@@ -73,6 +73,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
+     "${node-api-headers_SOURCE_DIR}/include"
+     "${node-addon-api_SOURCE_DIR}"
+     "${CMAKE_CURRENT_SOURCE_DIR}/.."
++    "/usr/include/node"
+ )
+ 
+ target_link_libraries(${PROJECT_NAME} PRIVATE openvino::runtime ${CMAKE_JS_LIB})
+-- 
+2.45.2
+

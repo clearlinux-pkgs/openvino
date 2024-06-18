@@ -1,0 +1,27 @@
+## Move files into appropriate dirs; looks like this was built assuming installation in /opt/<something>
+
+# Misc files
+mkdir -p %{buildroot}/usr/share/openvino
+mv %{buildroot}/usr/samples %{buildroot}/usr/share/openvino/
+mv %{buildroot}/usr/setupvars.sh %{buildroot}/usr/share/openvino/
+mv %{buildroot}/usr/runtime/lib/intel64/cache.json %{buildroot}/usr/share/openvino/
+mv %{buildroot}/usr/install_dependencies/install_openvino_dependencies.sh %{buildroot}/usr/share/openvino/
+rm -rf %{buildroot}/usr/licenses/
+
+# Python
+rm %{buildroot}/usr/python/requirements.txt
+PYTHON_SITE_DIR=$(python -c 'import site; print(site.getsitepackages()[0])')
+mkdir -p %{buildroot}/${PYTHON_SITE_DIR}
+mv %{buildroot}/usr/python/* %{buildroot}/${PYTHON_SITE_DIR}/
+
+# CMake
+mkdir -p %{buildroot}/usr/share/cmake
+mv %{buildroot}/usr/runtime/cmake/* %{buildroot}/usr/share/cmake/
+
+# Headers
+mkdir -p %{buildroot}/usr/include
+mv %{buildroot}/usr/runtime/include/* %{buildroot}/usr/include/
+
+# Libraries
+mkdir -p %{buildroot}/usr/lib64
+mv %{buildroot}/usr/runtime/lib/intel64/* %{buildroot}/usr/lib64/

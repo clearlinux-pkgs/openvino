@@ -1,0 +1,3 @@
+# Copy the prepackaged git submodules into place
+VENDOR=$(find %{_builddir}/openvino-vendor-* -type d -name vendor -print -quit)
+cp -pr "${VENDOR}"/* ./
