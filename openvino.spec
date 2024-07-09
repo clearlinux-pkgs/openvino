@@ -7,7 +7,7 @@
 #
 Name     : openvino
 Version  : 2024.1.0
-Release  : 1
+Release  : 2
 URL      : https://github.com/openvinotoolkit/openvino/archive/2024.1.0/openvino-2024.1.0.tar.gz
 Source0  : https://github.com/openvinotoolkit/openvino/archive/2024.1.0/openvino-2024.1.0.tar.gz
 Source1  : http://localhost/cgit/projects/openvino-vendor/snapshot/openvino-vendor-2024.1.0.tar.gz
