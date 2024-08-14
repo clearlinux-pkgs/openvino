@@ -1,5 +1,5 @@
 PKG_NAME := openvino
-URL = https://github.com/openvinotoolkit/openvino/archive/2024.2.0/openvino-2024.2.0.tar.gz
-ARCHIVES = $(CGIT_BASE_URL)/projects/openvino-vendor/snapshot/openvino-vendor-2024.2.0.tar.gz :
+URL = https://github.com/openvinotoolkit/openvino/archive/2024.3.0/openvino-2024.3.0.tar.gz
+ARCHIVES = $(CGIT_BASE_URL)/projects/openvino-vendor/snapshot/openvino-vendor-2024.3.0.tar.gz :
 
 include ../common/Makefile.common

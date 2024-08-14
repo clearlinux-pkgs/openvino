@@ -6,11 +6,11 @@
 # autospec commit: eaa4f711da30
 #
 Name     : openvino
-Version  : 2024.2.0
-Release  : 5
-URL      : https://github.com/openvinotoolkit/openvino/archive/2024.2.0/openvino-2024.2.0.tar.gz
-Source0  : https://github.com/openvinotoolkit/openvino/archive/2024.2.0/openvino-2024.2.0.tar.gz
-Source1  : http://localhost/cgit/projects/openvino-vendor/snapshot/openvino-vendor-2024.2.0.tar.gz
+Version  : 2024.3.0
+Release  : 6
+URL      : https://github.com/openvinotoolkit/openvino/archive/2024.3.0/openvino-2024.3.0.tar.gz
+Source0  : https://github.com/openvinotoolkit/openvino/archive/2024.3.0/openvino-2024.3.0.tar.gz
+Source1  : http://localhost/cgit/projects/openvino-vendor/snapshot/openvino-vendor-2024.3.0.tar.gz
 Summary  : Extends sphinx-sitemap plugin with additional sitemap metadata
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause MIT
@@ -20,6 +20,7 @@ Requires: openvino-python = %{version}-%{release}
 Requires: openvino-python3 = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : doxygen
+BuildRequires : gflags-dev
 BuildRequires : git
 BuildRequires : glibc-dev
 BuildRequires : llvm-dev
@@ -28,8 +29,12 @@ BuildRequires : nodejs-dev
 BuildRequires : opencv-dev
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(hwloc)
+BuildRequires : pkgconfig(libffi)
+BuildRequires : pkgconfig(libzstd)
+BuildRequires : pkgconfig(ncurses)
 BuildRequires : pkgconfig(nlohmann_json)
 BuildRequires : pkgconfig(tbb)
+BuildRequires : pkgconfig(zlib)
 BuildRequires : protobuf-dev
 BuildRequires : pypi(pybind11)
 BuildRequires : pypi-sphinx
@@ -95,12 +100,12 @@ python3 components for the openvino package.
 
 
 %prep
-%setup -q -n openvino-2024.2.0
+%setup -q -n openvino-2024.3.0
 cd %{_builddir}
-mkdir -p openvino-vendor-2024.2.0.tar
-cd openvino-vendor-2024.2.0.tar
-tar xf %{_sourcedir}/openvino-vendor-2024.2.0.tar.gz
-cd %{_builddir}/openvino-2024.2.0
+mkdir -p openvino-vendor-2024.3.0.tar
+cd openvino-vendor-2024.3.0.tar
+tar xf %{_sourcedir}/openvino-vendor-2024.3.0.tar.gz
+cd %{_builddir}/openvino-2024.3.0
 %patch -P 1 -p1
 %patch -P 2 -p1
 
@@ -114,7 +119,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1723143061
+export SOURCE_DATE_EPOCH=1723594423
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -160,7 +165,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1723143061
+export SOURCE_DATE_EPOCH=1723594423
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/openvino
 cp %{_builddir}/openvino-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/openvino/7df059597099bb7dcf25d2a9aedfaf4465f72d8d || :
@@ -177,8 +182,9 @@ pushd clr-build
 %make_install
 popd
 ## install_append content
-rm -rf %{buildroot}/usr/samples/cpp/thirdparty
 rm  -f %{buildroot}/usr/lib/python*/site-packages/requirements.txt
+rm -rf %{buildroot}/usr/samples/cpp/thirdparty
+rm -rf %{buildroot}/usr/tools
 ## install_append end
 
 %files
@@ -259,8 +265,10 @@ rm  -f %{buildroot}/usr/lib/python*/site-packages/requirements.txt
 /usr/include/openvino/core/type/element_type.hpp
 /usr/include/openvino/core/type/element_type_traits.hpp
 /usr/include/openvino/core/type/float16.hpp
+/usr/include/openvino/core/type/float4_e2m1.hpp
 /usr/include/openvino/core/type/float8_e4m3.hpp
 /usr/include/openvino/core/type/float8_e5m2.hpp
+/usr/include/openvino/core/type/float8_e8m0.hpp
 /usr/include/openvino/core/version.hpp
 /usr/include/openvino/core/visibility.hpp
 /usr/include/openvino/frontend/complex_type_mark.hpp
@@ -609,17 +617,15 @@ rm  -f %{buildroot}/usr/lib/python*/site-packages/requirements.txt
 /usr/include/openvino/pass/pattern/op/any.hpp
 /usr/include/openvino/pass/pattern/op/any_of.hpp
 /usr/include/openvino/pass/pattern/op/any_output.hpp
-/usr/include/openvino/pass/pattern/op/branch.hpp
-/usr/include/openvino/pass/pattern/op/capture.hpp
 /usr/include/openvino/pass/pattern/op/label.hpp
 /usr/include/openvino/pass/pattern/op/optional.hpp
 /usr/include/openvino/pass/pattern/op/or.hpp
 /usr/include/openvino/pass/pattern/op/pattern.hpp
-/usr/include/openvino/pass/pattern/op/skip.hpp
 /usr/include/openvino/pass/pattern/op/true.hpp
 /usr/include/openvino/pass/pattern/op/wrap_type.hpp
 /usr/include/openvino/pass/sdpa_to_paged_attention.hpp
 /usr/include/openvino/pass/serialize.hpp
+/usr/include/openvino/pass/stateful_to_stateless.hpp
 /usr/include/openvino/pass/validate.hpp
 /usr/include/openvino/pass/visualize_tree.hpp
 /usr/include/openvino/runtime/allocator.hpp
@@ -659,22 +665,22 @@ rm  -f %{buildroot}/usr/lib/python*/site-packages/requirements.txt
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/libopenvino.so.2024.2.0
-/usr/lib64/libopenvino.so.2420
-/usr/lib64/libopenvino_c.so.2024.2.0
-/usr/lib64/libopenvino_c.so.2420
-/usr/lib64/libopenvino_ir_frontend.so.2024.2.0
-/usr/lib64/libopenvino_ir_frontend.so.2420
-/usr/lib64/libopenvino_onnx_frontend.so.2024.2.0
-/usr/lib64/libopenvino_onnx_frontend.so.2420
-/usr/lib64/libopenvino_paddle_frontend.so.2024.2.0
-/usr/lib64/libopenvino_paddle_frontend.so.2420
-/usr/lib64/libopenvino_pytorch_frontend.so.2024.2.0
-/usr/lib64/libopenvino_pytorch_frontend.so.2420
-/usr/lib64/libopenvino_tensorflow_frontend.so.2024.2.0
-/usr/lib64/libopenvino_tensorflow_frontend.so.2420
-/usr/lib64/libopenvino_tensorflow_lite_frontend.so.2024.2.0
-/usr/lib64/libopenvino_tensorflow_lite_frontend.so.2420
+/usr/lib64/libopenvino.so.2024.3.0
+/usr/lib64/libopenvino.so.2430
+/usr/lib64/libopenvino_c.so.2024.3.0
+/usr/lib64/libopenvino_c.so.2430
+/usr/lib64/libopenvino_ir_frontend.so.2024.3.0
+/usr/lib64/libopenvino_ir_frontend.so.2430
+/usr/lib64/libopenvino_onnx_frontend.so.2024.3.0
+/usr/lib64/libopenvino_onnx_frontend.so.2430
+/usr/lib64/libopenvino_paddle_frontend.so.2024.3.0
+/usr/lib64/libopenvino_paddle_frontend.so.2430
+/usr/lib64/libopenvino_pytorch_frontend.so.2024.3.0
+/usr/lib64/libopenvino_pytorch_frontend.so.2430
+/usr/lib64/libopenvino_tensorflow_frontend.so.2024.3.0
+/usr/lib64/libopenvino_tensorflow_frontend.so.2430
+/usr/lib64/libopenvino_tensorflow_lite_frontend.so.2024.3.0
+/usr/lib64/libopenvino_tensorflow_lite_frontend.so.2430
 /usr/lib64/openvino/libopenvino_auto_batch_plugin.so
 /usr/lib64/openvino/libopenvino_auto_plugin.so
 /usr/lib64/openvino/libopenvino_hetero_plugin.so
